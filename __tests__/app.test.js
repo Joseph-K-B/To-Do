@@ -22,7 +22,7 @@ describe('app routes', () => {
         });
       
       token = signInData.body.token; // eslint-disable-line
-    }, 10000);
+    }, 1000000);
   
     afterAll(done => {
       return client.end(done);
@@ -32,23 +32,31 @@ describe('app routes', () => {
       const arr = 
       [{
         id: 1,
-        todo: 'wash the dishes',
+        to_do: 'wash the dishes',
         completed: false,
         user_id: 2
       },
       {
         id: 2,
-        todo: 'mow lawn',
+        to_do: 'mow lawn',
         completed: false,
         user_id: 2
       },
       {
         id: 3,
-        todo: 'fold laundry',
+        to_do: 'fold laundry',
         completed: false,
         user_id: 2
       }
       ];
+
+      const data = fakeRequest(app)
+        .get('/api/todo')
+        .expect('Content-Type, /json/')
+        .expect(200);
+
+      expect (data.to_do).toEqual(arr.to_do);
+      expect (data.completed).toEqual(arr.completed);
     });
 
     test('POSTS animals', async() => {
