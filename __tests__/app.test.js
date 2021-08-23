@@ -51,7 +51,7 @@ describe('app routes', () => {
       ];
 
       const data = fakeRequest(app)
-        .get('/api/todo')
+        .get('/api/todos')
         .expect('Content-Type, /json/')
         .expect(200);
 
@@ -59,26 +59,28 @@ describe('app routes', () => {
       expect (data.completed).toEqual(arr.completed);
     });
 
-    test('POSTS animals', async() => {
+    test('POSTS todos', async() => {
 
       // const expectation = [
        
       // ];
 
-      const newAnimal = {
-        name: 'Latte',
-        cool_factor: 1000
+      const newToDo = {
+        to_do: 'Feed fish',
+        completed: false,
+        user_id: 1
       };
 
       const data = await fakeRequest(app)
-        .post('/api/animals')
-        .send(newAnimal)
+        .post('/api/todos')
+        .send(newToDo)
         .set('Authorization', token)
         .expect('Content-Type', /json/)
         .expect(200);
 
-      expect(data.body.cool_factor).toEqual(newAnimal.cool_factor);
-      expect(data.body.name).toEqual(newAnimal.name);
+      expect(data.body.completed).toEqual(newToDo.completed);
+      expect(data.body.to_do).toEqual(newToDo.to_do);
+      expect(data.body.user_id).toEqual(newToDo.user_id);
     });
   });
 });
