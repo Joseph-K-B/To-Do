@@ -82,5 +82,23 @@ describe('app routes', () => {
       expect(data.body.to_do).toEqual(newToDo.to_do);
       expect(data.body.user_id).toEqual(newToDo.user_id);
     });
+
+    test ('PUT /api/todos updates object', async ()=> {
+      const newData = {
+        id: 1,
+        to_do: 'Walk the Dog',
+        completed: false,
+        user_id: 1
+      };
+      const data = await fakeRequest(app)
+        .put('/api/todos')
+        .send(newData)
+        .expect(200)
+        .expect('Content-Type', /json/);
+
+      expect(data.body.to_do).toEqual(newData.to_do);
+      expect(data.body.completed).toEqual(newData.completed);
+      expect(data.body.user_id).toEqual(newData.user_id);
+    });
   });
 });
