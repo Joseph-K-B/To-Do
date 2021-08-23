@@ -1,14 +1,16 @@
-module.exports = [
-  {
-    name: 'bessie',
-    cool_factor: 3,
-  },
-  {
-    name: 'jumpy',
-    cool_factor: 4,
-  },
-  {
-    name: 'spot',
-    cool_factor: 10,
-  }
+module.exports = [{
+  to_do: 'wash the dishes',
+  completed: false,
+  user_id: 2
+},
+{
+  to_do: 'mow lawn',
+  completed: false,
+  user_id: 2
+},
+{
+  to_do: 'fold laundry',
+  completed: false,
+  user_id: 2
+}
 ];

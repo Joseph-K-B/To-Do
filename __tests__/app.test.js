@@ -28,35 +28,49 @@ describe('app routes', () => {
       return client.end(done);
     });
 
-    test('returns animals', async() => {
-
-      const expectation = [
-        {
-          'id': 1,
-          'name': 'bessie',
-          'cool_factor': 3,
-          'owner_id': 1
-        },
-        {
-          'id': 2,
-          'name': 'jumpy',
-          'cool_factor': 4,
-          'owner_id': 1
-        },
-        {
-          'id': 3,
-          'name': 'spot',
-          'cool_factor': 10,
-          'owner_id': 1
-        }
+    test('GET to-do list', async () => {
+      const arr = 
+      [{
+        id: 1,
+        todo: 'wash the dishes',
+        completed: false,
+        user_id: 2
+      },
+      {
+        id: 2,
+        todo: 'mow lawn',
+        completed: false,
+        user_id: 2
+      },
+      {
+        id: 3,
+        todo: 'fold laundry',
+        completed: false,
+        user_id: 2
+      }
       ];
+    });
+
+    test('POSTS animals', async() => {
+
+      // const expectation = [
+       
+      // ];
+
+      const newAnimal = {
+        name: 'Latte',
+        cool_factor: 1000
+      };
 
       const data = await fakeRequest(app)
-        .get('/animals')
+        .post('/api/animals')
+        .send(newAnimal)
+        .set('Authorization', token)
         .expect('Content-Type', /json/)
         .expect(200);
 
-      expect(data.body).toEqual(expectation);
+      expect(data.body.cool_factor).toEqual(newAnimal.cool_factor);
+      expect(data.body.name).toEqual(newAnimal.name);
     });
   });
 });
