@@ -52,6 +52,7 @@ describe('app routes', () => {
 
       const data = fakeRequest(app)
         .get('/api/todos')
+        .set('Authorization', token)
         .expect('Content-Type, /json/')
         .expect(200);
 
@@ -68,7 +69,7 @@ describe('app routes', () => {
       const newToDo = {
         to_do: 'Feed fish',
         completed: false,
-        user_id: 1
+        user_id: 2
       };
 
       const data = await fakeRequest(app)
@@ -88,13 +89,14 @@ describe('app routes', () => {
         id: 1,
         to_do: 'Walk the Dog',
         completed: false,
-        user_id: 1
+        user_id: 2
       };
       const data = await fakeRequest(app)
-        .put('/api/todos')
+        .put('/api/todos/1')
         .send(newData)
-        .expect(200)
-        .expect('Content-Type', /json/);
+        .set('Authorization', token);
+        // .expect(200)
+        // .expect('Content-Type', /json/);
 
       expect(data.body.to_do).toEqual(newData.to_do);
       expect(data.body.completed).toEqual(newData.completed);
