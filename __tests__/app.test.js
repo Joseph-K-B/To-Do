@@ -22,7 +22,7 @@ describe('app routes', () => {
         });
       
       token = signInData.body.token; // eslint-disable-line
-    }, 10000);
+    }, 1000000);
   
     afterAll(done => {
       return client.end(done);
@@ -32,45 +32,75 @@ describe('app routes', () => {
       const arr = 
       [{
         id: 1,
-        todo: 'wash the dishes',
+        to_do: 'wash the dishes',
         completed: false,
         user_id: 2
       },
       {
         id: 2,
-        todo: 'mow lawn',
+        to_do: 'mow lawn',
         completed: false,
         user_id: 2
       },
       {
         id: 3,
-        todo: 'fold laundry',
+        to_do: 'fold laundry',
         completed: false,
         user_id: 2
       }
       ];
+
+      const data = fakeRequest(app)
+        .get('/api/todos')
+        .set('Authorization', token)
+        .expect('Content-Type, /json/')
+        .expect(200);
+
+      expect (data.to_do).toEqual(arr.to_do);
+      expect (data.completed).toEqual(arr.completed);
     });
 
-    test('POSTS animals', async() => {
+    test('POSTS todos', async() => {
 
       // const expectation = [
        
       // ];
 
-      const newAnimal = {
-        name: 'Latte',
-        cool_factor: 1000
+      const newToDo = {
+        to_do: 'Feed fish',
+        completed: false,
+        user_id: 2
       };
 
       const data = await fakeRequest(app)
-        .post('/api/animals')
-        .send(newAnimal)
+        .post('/api/todos')
+        .send(newToDo)
         .set('Authorization', token)
         .expect('Content-Type', /json/)
         .expect(200);
 
-      expect(data.body.cool_factor).toEqual(newAnimal.cool_factor);
-      expect(data.body.name).toEqual(newAnimal.name);
+      expect(data.body.completed).toEqual(newToDo.completed);
+      expect(data.body.to_do).toEqual(newToDo.to_do);
+      expect(data.body.user_id).toEqual(newToDo.user_id);
+    });
+
+    test ('PUT /api/todos updates object', async ()=> {
+      const newData = {
+        id: 1,
+        to_do: 'Walk the Dog',
+        completed: false,
+        user_id: 2
+      };
+      const data = await fakeRequest(app)
+        .put('/api/todos/1')
+        .send(newData)
+        .set('Authorization', token);
+        // .expect(200)
+        // .expect('Content-Type', /json/);
+
+      expect(data.body.to_do).toEqual(newData.to_do);
+      expect(data.body.completed).toEqual(newData.completed);
+      expect(data.body.user_id).toEqual(newData.user_id);
     });
   });
 });
