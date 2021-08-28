@@ -1,6 +1,6 @@
 const client = require('../lib/client');
 // import our seed data:
-const todos = require('./todo.js');
+const todos = require('./ToDo.js');
 const usersData = require('./users.js');
 const { getEmoji } = require('../lib/emoji.js');
 

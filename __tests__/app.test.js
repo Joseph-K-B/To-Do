@@ -28,38 +28,6 @@ describe('app routes', () => {
       return client.end(done);
     });
 
-    test('GET to-do list', async () => {
-      const arr = 
-      [{
-        id: 1,
-        to_do: 'wash the dishes',
-        completed: false,
-        user_id: 2
-      },
-      {
-        id: 2,
-        to_do: 'mow lawn',
-        completed: false,
-        user_id: 2
-      },
-      {
-        id: 3,
-        to_do: 'fold laundry',
-        completed: false,
-        user_id: 2
-      }
-      ];
-
-      const data = fakeRequest(app)
-        .get('/api/todos')
-        .set('Authorization', token)
-        .expect('Content-Type, /json/')
-        .expect(200);
-
-      expect (data.to_do).toEqual(arr.to_do);
-      expect (data.completed).toEqual(arr.completed);
-    });
-
     test('POSTS todos', async() => {
 
       // const expectation = [
@@ -67,6 +35,7 @@ describe('app routes', () => {
       // ];
 
       const newToDo = {
+        id:4,
         to_do: 'Feed fish',
         completed: false,
         user_id: 2
@@ -83,6 +52,26 @@ describe('app routes', () => {
       expect(data.body.to_do).toEqual(newToDo.to_do);
       expect(data.body.user_id).toEqual(newToDo.user_id);
     });
+
+    test('GET to-do list', async () => {
+      
+      const expectation = {
+        id:4,
+        to_do: 'Feed fish',
+        completed: false,
+        user_id: 2
+      };
+
+      const data = fakeRequest(app)
+        .get('/api/todos')
+        .set('Authorization', token)
+        .expect('Content-Type, /json/')
+        .expect(200);
+
+      expect (data.to_do).toEqual(expectation);
+      // expect (data.completed).toEqual(arr.completed);
+    });
+
 
     test ('PUT /api/todos updates object', async ()=> {
       const newData = {
